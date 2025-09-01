@@ -1,0 +1,18 @@
+; ions.itp - Minimalistic example for Mg2+ and Cl- in a GROMACS topology.
+
+[ moleculetype ]
+; name     nrexcl
+MG2+       1
+
+[ atoms ]
+;   nr   type       resnr  residue  atom  cgnr  charge   mass
+    1    MG2+       1       MG2+     MG    1     +2.0     24.305
+
+[ moleculetype ]
+; name     nrexcl
+CL-        1
+
+[ atoms ]
+;   nr   type       resnr  residue  atom  cgnr  charge   mass
+    1    CL-        1       CL-      CL    1     -1.0     35.45
+

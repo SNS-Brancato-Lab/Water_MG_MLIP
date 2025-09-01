@@ -1,0 +1,40 @@
+# LAMMPS Input Script 
+
+units               metal
+atom_style          atomic
+atom_modify         map yes
+newton              on
+dimension           3
+boundary            p p p
+
+# Read data or restart
+#read_restart        restart_298K_NH.lammps
+read_data           METAD_start.data
+
+timestep            0.0005
+
+pair_style          mliap unified water_QE_revPBE_TOTAL_MG_9.model-mliap_lammps.pt 0
+pair_coeff          * * H Mg O
+
+# Initialize velocities to the target T 
+velocity            all create 298.0 4928459 rot yes dist gaussian
+
+fix                 1 all nve 
+fix                 2 all langevin 298.0 298.0 0.5 12345
+fix                 3 all plumed plumedfile plumed.dat outfile p.log
+
+thermo_style        custom step time temp press vol density etotal epair ecouple
+thermo              1000
+
+# Dump trajectory (filename will be patched to include <T>K)
+dump                1 all xyz 1000 run_npt_equil_298K_NH.xyz
+dump_modify         1 append yes
+
+# Write a .data file at the end of this segment (filename patched per‐T)
+write_data          run_start.data
+
+# Run the simulation
+run                 1000000
+
+write_data          run_end.data
+write_restart       restart.lammps

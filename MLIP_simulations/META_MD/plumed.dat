@@ -1,0 +1,39 @@
+#RESTART
+UNITS LENGTH=A TIME=ps ENERGY=kj/mol
+
+ion: GROUP ATOMS=382 #ion  
+waters: GROUP ATOMS=1-379:3 #all water oxigens
+
+coordinationa: COORDINATION GROUPA=ion GROUPB=waters SWITCH={MATHEVAL FUNC=(1-(1/(1+(exp(-4.0*(x-3)))))) R_0=1.0 D_0=0.0}
+
+uwall: UPPER_WALLS ARG=coordinationa AT=9.0 KAPPA=1000.0
+lwall: LOWER_WALLS ARG=coordinationa AT=0.5 KAPPA=1000.0
+
+METAD ...
+   LABEL=metad
+   ARG=coordinationa
+   SIGMA=0.1
+   HEIGHT=0.96 
+   PACE=4000
+   TEMP=300
+   BIASFACTOR=10.0 
+   FILE=HILLS
+   GRID_MIN=-1.0
+   GRID_MAX=10.0
+   GRID_BIN=110
+#   GRID_RFILE=GRID
+   GRID_WSTRIDE=50000
+   GRID_WFILE=GRID
+#   INTERVAL=0.8,7.0
+#   WALKERS_ID=$idvar
+#   WALKERS_N=$num_rep
+#   WALKERS_DIR=../
+#   WALKERS_RSTRIDE=2000
+
+... METAD
+
+PRINT ARG=coordinationa,metad.bias STRIDE=100 FILE=COLVAR
+FLUSH STRIDE=50000
+
+ENDPLUMED
+

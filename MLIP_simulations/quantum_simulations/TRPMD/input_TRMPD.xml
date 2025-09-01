@@ -1,0 +1,57 @@
+<simulation verbosity="low">
+   <output prefix="run_nve_QE_trained">
+      <properties stride="20" filename="out">
+         [ step, time{picosecond}, temperature{kelvin}, conserved{electronvolt},
+           pot_component_raw(0), pressure_cv{megapascal}, pressure_md{megapascal}, volume ]
+      </properties>
+      <properties stride="20" filename="kin">
+         [ step, kinetic_cv, kinetic_cv(H), kinetic_cv(O), kinetic_td,
+           kinetic_td(H), kinetic_td(O) ]
+      </properties>
+      <trajectory filename="pos" stride="400"> positions </trajectory>
+      <trajectory filename="frc" stride="400"> forces </trajectory>
+      <checkpoint stride="1000" filename="chk"/>
+   </output>
+
+   <total_steps> 2000000 </total_steps>
+   <total_time> 84600 </total_time>
+   <prng>
+      <seed>31415</seed>
+   </prng>
+
+   <ffsocket mode="inet" name="driver">
+      <latency>0.01</latency>
+      <slots>56</slots>
+      <timeout>60</timeout>
+      <port>31415</port>
+      <address>HOSTNAME</address>
+   </ffsocket>
+
+   <system>
+      <initialize nbeads="56">
+         <file mode="xyz"> water_start.xyz </file>
+         <cell mode="abc" units="angstrom">[12.429, 12.429, 12.429]</cell>
+      </initialize>
+
+      <forces>
+         <force forcefield="driver" />
+      </forces>
+
+      <motion mode="dynamics">
+         <!-- Evolve the centroid with NVE dynamics -->
+         <dynamics mode="nvt">
+            <timestep units="femtosecond">0.25</timestep>
+            <thermostat mode="pile_g">
+               <tau units="femtosecond">1000.0</tau> -->
+            </thermostat>
+         </dynamics>
+      </motion>
+
+      <!-- Apply thermostat only to the internal (non-centroid) ring-polymer modes -->
+
+      <ensemble>
+         <temperature units="kelvin">300</temperature>
+      </ensemble>
+   </system>
+</simulation>
+

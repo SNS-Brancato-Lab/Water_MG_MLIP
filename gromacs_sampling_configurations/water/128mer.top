@@ -1,0 +1,12 @@
+; Include 53a6 topology 
+#include "53a6_forcefield.itp"
+; Include water topology 
+#include "tip4p.itp"
+
+[ system ]
+; Name
+Membrane in water
+
+[ molecules ]
+; Compound        #mols
+SOL               128

@@ -1,0 +1,2 @@
+All simulations were performed using the 2 april 2025 version of LAMMPS with the MLIAP implementation of the MACE interface for LAMMPS, 
+check https://mace-docs.readthedocs.io/en/latest/ for further information about training and compilation of the software and models.

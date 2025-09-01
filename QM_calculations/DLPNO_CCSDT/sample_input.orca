@@ -1,0 +1,6 @@
+!DLPNO-CCSD(T)-F12 cc-pVQZ cc-pVQZ/C cc-pVQZ-F12-CABS RIJCOSX VeryTightSCF TightPNO
+%PAL NPROCS 36 END
+%maxcore 15000
+
+* xyzfile +2 1 micro_doubleshell.xyz
+
