@@ -2,3 +2,4 @@ All classical simulations were performed using the 2 april 2025 version of LAMMP
 check https://mace-docs.readthedocs.io/en/latest/ for further information about training and compilation of the software and models.
 Quantum simulations used the ASE python library as a driver using version 3.22.1.
 Model training were performed using MACE 0.3.8 version.
+Plumed 2.9.0 was used for the Meta-MD simulations.
